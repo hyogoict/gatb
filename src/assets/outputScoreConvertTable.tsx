@@ -1,10 +1,9 @@
+import { Arr } from 'types/sensei-web';
+
+
 const fs = require('fs');
 
-interface arr {
-    [key: number]: number
-}
-
-const convertTableHs01: arr = {};
+const convertTableHs01: Arr = {};
 for (let i = 36; i >= 0; i--) {
   convertTableHs01[i] = Math.floor((i - 36) / 2) + 117;
 }
