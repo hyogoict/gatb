@@ -35,47 +35,53 @@ const StyledInput = styled.input`
 `;
 
 export const Page: FC = () => {
+  const [error, setError] = useState('');
   const [scores, setScores] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    if (e.target.value > (index === 0 ? 180 : index === 1 ? 90 : index === 2 ? 36 : index === 3 ? 70 : index === 4 ? 24 : index === 5 ? 24 : index === 6 ? 30 : index === 7 ? 40 : index === 8 ? 28 : index === 9 ? 48 :  index === 10 ? 20 : '')) {
+      setError('最大値を超えています');
+      return;
+    }
+    setError('');
     const newScores = [...scores];
-    newScores[index] = Number(e.target.value);
+    let inputScore = Number(e.target.value);
     switch (index) {
       case 0:
-        newScores[0] = convertScore(newScores[0], convertTableHs01);
+        newScores[0] = convertScore(inputScore, convertTableHs01);
         break;
       case 1:
-        newScores[1] = convertScore(newScores[1], convertTableHs02);
+        newScores[1] = convertScore(inputScore, convertTableHs02);
         break;
       case 2:
-        newScores[2] = convertScore(newScores[2], convertTableHs03);
+        newScores[2] = convertScore(inputScore, convertTableHs03);
         break;
       case 3:
-        newScores[3] = convertScore(newScores[3], convertTableHs04);
+        newScores[3] = convertScore(inputScore, convertTableHs04);
         break;
       case 4:
-        newScores[4] = convertScore(newScores[4], convertTableHs05);
+        newScores[4] = convertScore(inputScore, convertTableHs05);
         break;
       case 5:
-        newScores[5] = convertScore(newScores[5], convertTableHs06);
+        newScores[5] = convertScore(inputScore, convertTableHs06);
         break;
       case 6:
-        newScores[6] = convertScore(newScores[6], convertTableHs07);
+        newScores[6] = convertScore(inputScore, convertTableHs07);
         break;
       case 7:
-        newScores[7] = convertScore(newScores[7], convertTableHs08);
+        newScores[7] = convertScore(inputScore, convertTableHs08);
         break;
       case 8:
-        newScores[8] = convertScore(newScores[8], convertTableHs09G);
-        newScores[9] = convertScore(newScores[8], convertTableHs09S);
+        newScores[8] = convertScore(inputScore, convertTableHs09G);
+        newScores[9] = convertScore(inputScore, convertTableHs09S);
         break;
       case 9:
-        newScores[10] = convertScore(newScores[9], convertTableHs10G);
-        newScores[11] = convertScore(newScores[9], convertTableHs10V);
+        newScores[10] = convertScore(inputScore, convertTableHs10G);
+        newScores[11] = convertScore(inputScore, convertTableHs10V);
         break;
       case 10:
-        newScores[12] = convertScore(newScores[10], convertTableHs11G);
-        newScores[13] = convertScore(newScores[10], convertTableHs11N);
+        newScores[12] = convertScore(inputScore, convertTableHs11G);
+        newScores[13] = convertScore(inputScore, convertTableHs11N);
         break;
       default:
         break;
@@ -117,7 +123,11 @@ export const Page: FC = () => {
                 {i === 9 && '検査１０'}
                 {i === 10 && '検査１１'}
           </StyledLabel>
-          <StyledInput id={`input${i + 1}`} type="number" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e, i)} />
+          <StyledInput id={`input${i + 1}`} type="number"
+            min="0" max={i === 0 ? 180 : i === 1 ? 90 : i === 2 ? 36 : i === 3 ? 70 : i === 4 ? 24 : i === 5 ? 24 : i === 6 ? 30 : i === 7 ? 40 : i === 8 ? 28 : i === 9 ? 48 :  i === 10 ? 20 : ""}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e, i)} />
+          {/* TODO: 入力値エラーの表示 */}
+          {/* {error && <p>{error}</p>} */}
         </StyledInputForm>
         </>
         ))}
