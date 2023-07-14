@@ -1,7 +1,7 @@
 import { FC, useCallback, useState } from "react";
 import {Helmet} from "react-helmet"
 import styled from 'styled-components';
-import { convertScore } from './convertScore';
+import { convertScore } from './utils/convertScore';
 import { convertTableHs01 } from "./assets/convertTable/convertTableHs01";
 import { convertTableHs02 } from "./assets/convertTable/convertTableHs02";
 import { convertTableHs03 } from "./assets/convertTable/convertTableHs03";
@@ -14,6 +14,7 @@ import { convertTableHs09G, convertTableHs09S } from "./assets/convertTable/conv
 import { convertTableHs10G, convertTableHs10V } from "./assets/convertTable/convertTableHs10";
 import { convertTableHs11G, convertTableHs11N } from "./assets/convertTable/convertTableHs11";
 import ScoreTable from './components/ScoreTable';
+import AptOccGrTable from "./components/AptOccGrTable";
 
 
 const StyledDiv = styled.div`
@@ -35,9 +36,10 @@ const StyledInput = styled.input`
 `;
 
 export const Page: FC = () => {
+  
   const [error, setError] = useState('');
   const [scores, setScores] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     if (e.target.value > (index === 0 ? 180 : index === 1 ? 90 : index === 2 ? 36 : index === 3 ? 70 : index === 4 ? 24 : index === 5 ? 24 : index === 6 ? 30 : index === 7 ? 40 : index === 8 ? 28 : index === 9 ? 48 :  index === 10 ? 20 : '')) {
       setError('最大値を超えています');
@@ -89,7 +91,7 @@ export const Page: FC = () => {
     setScores(newScores);
   };
 
-  const effScores = {
+  const aptScores = {
     G: scores[8] + scores[10] + scores[12],
     V: scores[7] + scores[11],
     N: scores[6] + scores[13],
@@ -97,6 +99,16 @@ export const Page: FC = () => {
     S: scores[5] + scores[9],
     P: scores[2] + scores[4],
     K: scores[0] + scores[1],
+  };
+  
+  const addScores = {
+    G: aptScores.G + 8,
+    V: aptScores.V + 8,
+    N: aptScores.N + 8,
+    Q: aptScores.Q + 8,
+    S: aptScores.S + 10,
+    P: aptScores.P + 10,
+    K: aptScores.K + 10,
   };
 
   return (
@@ -132,7 +144,8 @@ export const Page: FC = () => {
         </>
         ))}
     </StyledDiv>
-      <ScoreTable effScores={effScores} />
+      <ScoreTable aptScores={aptScores} addScores={addScores} />
+      <AptOccGrTable aptScores={aptScores} addScores={addScores} />
     </>
   );
 };

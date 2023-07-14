@@ -31,5 +31,8 @@ e which is omitted "event" type is
 ```
 The latter newScores[8] in line 3 has been substituted with the score after converted by the convertTableHs09G in the line 1, when it should have been substituted with the argument before converted.
 
+### 3 Hooks call
+Warning: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+
 ## Questions
 There were no type roots declaration in tsconfig.json
