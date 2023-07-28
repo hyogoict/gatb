@@ -21,33 +21,48 @@ const StyledDiv = styled.div`
   margin-left: 10px;
   display: flex;
   flex-direction: column;
-`;
+`
 const StyledInputForm = styled.div`
-`;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
 const StyledLabel = styled.label`
   margin-right: 10px;
   width: 100px;
   display: inline-block;
-`;
+`
 const StyledInput = styled.input`
-  margin-bottom: 10px;
   width: calc(100% / 10);
-  display: inline-block;
-`;
+`
+const StyledErrorMessage = styled.p`
+  color: red;
+  margin-left: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+`
 
 export const Page: FC = () => {
   
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string[]>([]);
   const [scores, setScores] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    if (e.target.value > (index === 0 ? 180 : index === 1 ? 90 : index === 2 ? 36 : index === 3 ? 70 : index === 4 ? 24 : index === 5 ? 24 : index === 6 ? 30 : index === 7 ? 40 : index === 8 ? 28 : index === 9 ? 48 :  index === 10 ? 20 : '')) {
-      setError('最大値を超えています');
-      return;
+    let inputScore = Number(e.target.value)
+    // 入力値のエラーメッセージを配列errorに格納
+    if (Number.isNaN(inputScore)) {
+      error[index] = '数値で入力してください'
+    } else if (inputScore > (index === 0 ? 180 : index === 1 ? 90 : index === 2 ? 36 : index === 3 ? 70 : index === 4 ? 24 : index === 5 ? 24 : index === 6 ? 30 : index === 7 ? 40 : index === 8 ? 28 : index === 9 ? 48 :  index === 10 ? 20 : 198)) {
+      error[index] = '最大値を超えています'
+    } else if (inputScore < 0) {
+      error[index] = '0以上で入力してください'
+    } else {
+      error[index] = ''
     }
-    setError('');
+    setError(error)
+
+    //　検査1~11の粗点を換算表で換算し配列scoresに格納
     const newScores = [...scores];
-    let inputScore = Number(e.target.value);
     switch (index) {
       case 0:
         newScores[0] = convertScore(inputScore, convertTableHs01);
@@ -87,7 +102,7 @@ export const Page: FC = () => {
         break;
       default:
         break;
-    }
+      }
     setScores(newScores);
   };
 
@@ -120,7 +135,7 @@ export const Page: FC = () => {
       <h2>一般職業適性検査 結果記録表</h2>
     <StyledDiv>
       {[...Array(11)].map((_, i) => (
-      <>
+        <>
         <StyledInputForm>
           <StyledLabel key={i} htmlFor={`input${i + 1}`}>
                 {i === 0 && '検査１'}
@@ -136,10 +151,9 @@ export const Page: FC = () => {
                 {i === 10 && '検査１１'}
           </StyledLabel>
           <StyledInput id={`input${i + 1}`} type="number"
-            min="0" max={i === 0 ? 180 : i === 1 ? 90 : i === 2 ? 36 : i === 3 ? 70 : i === 4 ? 24 : i === 5 ? 24 : i === 6 ? 30 : i === 7 ? 40 : i === 8 ? 28 : i === 9 ? 48 :  i === 10 ? 20 : ""}
+            min="0" max={i === 0 ? 180 : i === 1 ? 90 : i === 2 ? 36 : i === 3 ? 70 : i === 4 ? 24 : i === 5 ? 24 : i === 6 ? 30 : i === 7 ? 40 : i === 8 ? 28 : i === 9 ? 48 :  i === 10 ? 20 :198}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e, i)} />
-          {/* TODO: 入力値エラーの表示 */}
-          {/* {error && <p>{error}</p>} */}
+            {error[i] && <StyledErrorMessage>{error[i]}</StyledErrorMessage>}
         </StyledInputForm>
         </>
         ))}

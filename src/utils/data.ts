@@ -1,6 +1,6 @@
 import { OccGr } from 'types/sensei-web';
 
-
+// 番号を(1)とカッコつき表示に修正しやすいよう辞書形式
 export const aptOccGr: OccGr = {
     '1': "動植物の採取,飼育,栽培",
     '2': "動物管理,水産養殖,園芸",
@@ -43,7 +43,7 @@ export const aptOccGr: OccGr = {
     '39': "経理,会計",
     '40': "専門企画",
 };
-
+// TODO: When deataching these const from AptOccGrTable, both addScores and apt Scores should be reffered correctly.
 // export const addScoreMatchCondition = [
 //     '',
 //     '',

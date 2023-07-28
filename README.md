@@ -1,7 +1,10 @@
 # sensei-web
 
+https://zenn.dev/stin/articles/static-generation-without-framework
+I made it based on here
 
 ## How to build the web server
+
 ### Genelate public folder
 ```$ npm run build```
 
@@ -29,7 +32,7 @@ e which is omitted "event" type is
         newScores[9] = convertScore(newScores[8], convertTableHs09S);
         break;
 ```
-The latter newScores[8] in line 3 has been substituted with the score after converted by the convertTableHs09G in the line 1, when it should have been substituted with the argument before converted.
+The latter newScores[8] in the line 3 has been substituted with the score after converted by the convertTableHs09G in the line 2, when it should have been substituted with the argument before converted.
 
 ### 3 Hooks call
 Warning: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
